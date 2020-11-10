@@ -1,0 +1,19 @@
+{
+  "name": "gamers-house",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Le1z",
+  "license": "ISC",
+  "dependencies": {
+    "ascii-table": "0.0.9",
+    "canvas": "^2.6.1",
+    "discord.js": "^12.3.1",
+    "fs": "0.0.1-security",
+    "mongoose": "^5.10.0",
+    "weather-js": "^2.0.0"
+  }
+}
