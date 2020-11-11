@@ -1,4 +1,4 @@
-const Discord = require("discord.js")
+const Discord = require('discord.js')
 module.exports = async (client, oldState, newState) => {
     const name = `Автор: ${newState.member.user.username}`
     if (newState && newState.channel && newState.channelID == `734892740260659231` ) {

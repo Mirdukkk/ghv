@@ -1,12 +1,13 @@
 {
   "name": "gamers-house",
   "version": "1.0.0",
-  "description": "",
-  "main": "main.js",
+  "description": "Private Discord Bot for GamersHouse that does only voice things.",
+  "index": "index.js",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ."
   },
-  "author": "Le1z",
+  "author": "Mirdukkk",
   "license": "ISC",
   "dependencies": {
     "ascii-table": "0.0.9",

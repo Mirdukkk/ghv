@@ -1,4 +1,4 @@
-const { Collection } = require("discord.js")
+const { Collection } = require('discord.js')
 module.exports = {
     voiceCd: new Set(),
     createdVoices: new Collection()
