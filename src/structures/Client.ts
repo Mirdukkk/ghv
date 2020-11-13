@@ -1,8 +1,19 @@
-const Discord = require('discord.js'),
-  Gatherer = require('../util/Gatherer')
+import Discord from 'discord.js'
+import Gatherer from '../util/Gatherer'
+
+interface Cache {
+  voices: Discord.Collection<any, any>,
+  commands: Discord.Collection<any, any>,
+  events: Array<any>
+}
 
 class Client extends Discord.Client {
-  constructor(token, options) {
+  public owner: string
+  public prefix: string
+  public guildID: string
+  public cache: Cache
+
+  constructor(token: string, options: any) {
     super(options)
 
     this.owner = options.owner ?? 'nobody'
@@ -15,15 +26,17 @@ class Client extends Discord.Client {
   }
 
   load() {
+
+    // @ts-ignore
     global.client = this
+    // @ts-ignore
     global.Discord = Discord
-    global.fs = require('fs')
 
-    this.cache = {}
-    this.cache.voices = new Discord.Collection()
-
-    this.cache.commands = Gatherer.loadCommands()
-    this.cache.events = Gatherer.loadEvents()
+    this.cache = {
+      voices: new Discord.Collection(),
+      commands: Gatherer.loadCommands(),
+      events: Gatherer.loadEvents()
+    }
 
     this.cache.events.forEach(e => {
       this.on(e.name, e.execute.bind(e))
@@ -34,4 +47,4 @@ class Client extends Discord.Client {
 
 }
 
-module.exports = Client
+export default Client

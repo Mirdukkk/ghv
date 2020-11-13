@@ -1,9 +1,11 @@
-console.info('Trying to start...')
+import Client from './src/structures/Client'
 
-const Client = require('./src/structures/Client')
+// @ts-ignore
 global.config = require('./config/config')
+// @ts-ignore
+const config = global.config
 
-const client = new Client(global.config.token, global.config)
+const client = new Client(config.token, config)
 client.load()
   .then(() => {
     console.log('Ready!')

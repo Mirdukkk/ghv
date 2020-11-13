@@ -8,7 +8,7 @@ module.exports = class MessageEvent extends Event {
   }
 
   execute(msg) {
-
+console.log('ахуеть блядь работает ХАХАХАХХА')
     if (msg.partial) return
     if (msg.channel.type === 'dm') return
     if (msg.guild.id !== global.client.guildID) return

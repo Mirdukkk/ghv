@@ -9,6 +9,8 @@
   "author": "Mirdukkk",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^12.3.1"
+    "@types/node": "^14.14.7",
+    "discord.js": "^12.4.1",
+    "ts-node": "^9.0.0"
   }
 }
