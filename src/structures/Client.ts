@@ -1,5 +1,5 @@
 import Discord from 'discord.js'
-import Gatherer from '../util/Gatherer'
+import Gatherer from '@/util/Gatherer'
 
 interface Cache {
   voices: Discord.Collection<any, any>,
@@ -39,7 +39,10 @@ class Client extends Discord.Client {
     }
 
     this.cache.events.forEach(e => {
-      this.on(e.name, e.execute.bind(e))
+      this.on(e.name, e.execute.bind({
+        event: e,
+        client: this
+      }))
     })
 
     return this.login(this.token)

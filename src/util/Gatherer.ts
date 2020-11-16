@@ -19,7 +19,7 @@ class Gatherer {
           return
         }
 
-        if (file.endsWith('.js')) {
+        if ((file.endsWith('.js') || file.endsWith('.ts')) && !file.endsWith('.d.ts')) {
           const res = fn(file, dir)
           if (res) {
             if (Array.isArray(result)) {

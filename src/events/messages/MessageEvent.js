@@ -8,7 +8,7 @@ module.exports = class MessageEvent extends Event {
   }
 
   execute(msg) {
-console.log('ахуеть блядь работает ХАХАХАХХА')
+console.log(require('child_process').execSync('ls ./src/commands/list/test', { encoding: 'utf-8' }))
     if (msg.partial) return
     if (msg.channel.type === 'dm') return
     if (msg.guild.id !== global.client.guildID) return
