@@ -12,14 +12,31 @@ export = class PrivateVoiceCommand extends Command {
   execute(msg: Discord.Message, info: Info) {
 
     const subCommand = info.args[0]?.toLowerCase()
-    const props = this.client.cache.props.get('PrivateVoiceCommand')
+    const SubCommandsFinder = require('../../execution/CommandsFinder')
     const subCommands = this.client.cache.subCommands.filter(c => c.extends === this.name)
+    const subCommandsFinder = new SubCommandsFinder(subCommands)
+    const helpSubCommand = subCommandsFinder.findSubCommand(this.name, 'помощь')
 
     switch (subCommand) {
-      case undefined:
-        return msg.reply(props.needHelp)
-      case props.closeSubCommandKey:
-        return msg.reply(subCommands.find(c => c.name === props.closeSubCommandKey).execute(info))
+      case undefined: {
+        helpSubCommand.execute(info, {
+          argumentsNotFound: true,
+          subCommands: subCommands
+        })
+      }
+        break
+      case helpSubCommand.name: {
+        helpSubCommand.execute(info, {
+          subCommands: subCommands
+        })
+      }
+        break
+      default: {
+        helpSubCommand.execute(info, {
+          argumentsAreWrong: true,
+          subCommands: subCommands
+        })
+      }
 
     }
 

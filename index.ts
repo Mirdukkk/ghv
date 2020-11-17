@@ -4,7 +4,7 @@ import Proto from './proto'
 
 Proto.execute()
 
-console.info('compiled successfully. starting...')
+console.info('compiled successfully. starting.')
 
 import Client from './src/structures/Client'
 
@@ -16,7 +16,10 @@ const config = global.config
 const client = new Client(config.token, config)
 client.load()
   .then(() => {
-    console.info('all good, client are online.')
+    console.info(`all good, ${client.user.username ?? 'client'} are online.`)
+  })
+  .catch(e => {
+    console.error(`login failed with ${e.name}: ${e.message}`)
   })
 
 process.on('uncaughtException', console.error)

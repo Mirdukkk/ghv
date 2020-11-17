@@ -5,7 +5,7 @@ import Command from '@/structures/Command'
 class CommandsFinder {
   public commands: Discord.Collection<string, any>
 
-  constructor(commands: Discord.Collection<string, SubCommand | Command>) {
+  constructor(commands: Discord.Collection<string, any>) {
     this.commands = commands
   }
 
@@ -19,6 +19,16 @@ class CommandsFinder {
 
   findSubCommands(xtnds: string): Discord.Collection<string, SubCommand> {
     return this.commands.filter(c => c.extends === xtnds)
+  }
+
+  findSubCommandsFrom(
+    subCommands: Discord.Collection<string, SubCommand>, name: string
+  ): SubCommand | undefined {
+    const maybeSubCommand: SubCommand | undefined
+      = subCommands.find(c => c.name === name)
+    if (maybeSubCommand) return maybeSubCommand
+
+    return subCommands.get(subCommands.findKey(c => c.aliases.includes(name)))
   }
 
   findSubCommand(xtnds: string, name: string): SubCommand | undefined {

@@ -31,7 +31,7 @@ class Client extends Discord.Client {
 
   load() {
 
-    console.info('called client load. loading...')
+    console.info('called client load. loading.')
     // @ts-ignore
     global.client = this
     // @ts-ignore
@@ -49,15 +49,13 @@ class Client extends Discord.Client {
       events: Gatherer.loadEvents(),
       props: Gatherer.loadProps()
     }
-    console.info('cache is loaded. loading events...')
+    console.info(`cache is loaded. `
+      + `loaded ${this.cache.commands.size} commands and ${this.cache.subCommands.size} sub-commands.`)
 
     this.cache.events.forEach(e => {
-      this.on(e.name, e.execute/*.bind({
-        event: e,
-        client: this
-      })*/)
+      this.on(e.name, e.execute)
     })
-    console.info('events is loaded. trying to login...')
+    console.info('client fully loaded. trying to login.')
 
     return this.login(this.token)
   }

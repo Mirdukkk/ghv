@@ -45,12 +45,28 @@ class CommandsHandler {
       args: args
     }
 
-    if (command) command.execute(msg, info)
+    if (command) {
+      if (command.permissions) {
+        const readyToExecute = this.handleCommandPermissions(msg, command.permissions)
+        if (readyToExecute) command.execute(msg, info)
+      } else command.execute(msg, info)
+    }
 
   }
 
-  static handleCommandPermissions(msg, command) {
+  static handleCommandPermissions(msg, permissions) {
+    const customPermissions = {
+      owner: m => global.client.owner?.includes(m?.author.id)
+    }
 
+    if (Array.isArray(permissions)) {
+      if (permissions.includes('OWNER')) return customPermissions.owner(msg)
+      else return msg.channel.permissionsFor(msg.member).has(permissions)
+    } else if (permissions === 7777) return customPermissions.owner(msg)
+    else if (permissions === 'OWNER') return customPermissions.owner(msg)
+    else if (permissions !== 0) return msg.channel.permissionsFor(msg.member).has(permissions)
+
+    return true
   }
 }
 

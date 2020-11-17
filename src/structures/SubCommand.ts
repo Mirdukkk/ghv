@@ -1,13 +1,20 @@
 import Base from './Base'
 
+interface Config {
+  name: string,
+  extends: string,
+  aliases?: Array<string>,
+  permissions?: number | string | Array<string>
+}
+
 class SubCommand extends Base {
   public readonly path: string
   public readonly name: string
   public readonly extends: string
   public readonly aliases: Array<string>
-  public readonly permissions: number
+  public readonly permissions: number | string | Array<string>
 
-  constructor(path: string, config: any = {}) {
+  constructor(path: string, config: Config | Record<any, any> = {}) {
     super()
     this.path = path
     this.name = config.name
@@ -16,7 +23,7 @@ class SubCommand extends Base {
     this.permissions = config.permissions ?? 0
   }
 
-  static isSubCommand: boolean = true
+  protected static isSubCommand: boolean = true
 }
 
 export = SubCommand
