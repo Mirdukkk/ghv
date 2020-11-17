@@ -4,6 +4,7 @@ import Gatherer from '@/util/Gatherer'
 interface Cache {
   voices: Discord.Collection<any, any>,
   commands: Discord.Collection<any, any>,
+  props: Discord.Collection<string, any>
   events: Array<any>
 }
 
@@ -34,8 +35,9 @@ class Client extends Discord.Client {
 
     this.cache = {
       voices: new Discord.Collection(),
-      commands: Gatherer.loadCommands(),
-      events: Gatherer.loadEvents()
+      commands: Gatherer.loadCommands(this),
+      events: Gatherer.loadEvents(this),
+      props: Gatherer.loadProps()
     }
 
     this.cache.events.forEach(e => {
