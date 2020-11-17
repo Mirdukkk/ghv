@@ -49,7 +49,7 @@ class Gatherer {
 
   }
 
-  static loadCommands(client): Discord.Collection<string, any> {
+  static loadCommands(): Discord.Collection<string, any> {
     return this.loadFiles((file, dir) => {
 
       const commandPath = `${dir}${file}`
@@ -59,10 +59,28 @@ class Gatherer {
         delete require.cache[commandPath]
         const comm = require(commandPath)
         const newCommand = new comm()
-        newCommand.client = client
         if (newCommand.name) return {
           key: newCommand.name,
           value: newCommand
+        }
+      }
+
+    }, 'collection')
+  }
+
+  static loadSubCommands(): Discord.Collection<string, any> {
+    return this.loadFiles((file, dir) => {
+
+      const subCommandPath = `${dir}${file}`
+      const subCommand = require(subCommandPath)
+
+      if (subCommand?.isSubCommand) {
+        delete require.cache[subCommandPath]
+        const subComm = require(subCommandPath)
+        const newSubCommand = new subComm()
+        if (newSubCommand.name && newSubCommand.path) return {
+          key: newSubCommand.path,
+          value: newSubCommand
         }
       }
 
@@ -86,7 +104,7 @@ class Gatherer {
     }, 'collection', true)
   }
 
-  static loadEvents(client): Array<any> {
+  static loadEvents(): Array<any> {
     return this.loadFiles((file, dir) => {
 
       const eventPath = `${dir}${file}`
@@ -96,7 +114,6 @@ class Gatherer {
         delete require.cache[eventPath]
         const ev = require(eventPath)
         const newEvent = new ev()
-        newEvent.client = client
         if (newEvent.name) return newEvent
       }
 

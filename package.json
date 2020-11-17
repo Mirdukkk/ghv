@@ -1,5 +1,5 @@
 {
-  "name": "gamers-house",
+  "name": "gamers-house-voice",
   "version": "1.0.0",
   "description": "Private Discord Bot for GamersHouse that does only voice things.",
   "index": "index.ts",

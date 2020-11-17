@@ -1,11 +1,11 @@
-import Client from '../structures/Client'
+import Base from './Base'
 
-class Event {
+class Event extends Base {
   public readonly path: string
   public readonly name: string
-  public client: Client
 
   constructor(path: string, config: any = {}) {
+    super()
     this.path = path
     this.name = config.name
   }

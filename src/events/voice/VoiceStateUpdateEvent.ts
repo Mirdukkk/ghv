@@ -10,7 +10,7 @@ export = class VoiceStateUpdateEvent extends Event {
 
   execute(oldState: Discord.VoiceState, newState: Discord.VoiceState) {
 
-    console.log(this.client.cache.props.first())
+    console.log(this.client.cache.commands.first())
 
   }
 }

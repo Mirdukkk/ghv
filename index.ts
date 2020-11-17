@@ -1,3 +1,11 @@
+console.log(`[info] ${(new Date()).toLocaleString()} | preparing to start... `)
+
+import Proto from './proto'
+
+Proto.execute()
+
+console.info('compiled successfully. starting...')
+
 import Client from './src/structures/Client'
 
 // @ts-ignore
@@ -8,7 +16,7 @@ const config = global.config
 const client = new Client(config.token, config)
 client.load()
   .then(() => {
-    console.log('Ready!')
+    console.info('all good, client are online.')
   })
 
 process.on('uncaughtException', console.error)

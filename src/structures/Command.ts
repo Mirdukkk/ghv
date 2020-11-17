@@ -1,13 +1,13 @@
-import Client from '../structures/Client'
+import Base from './Base'
 
-class Command {
+class Command extends Base {
   public readonly path: string
   public readonly name: string
   public readonly aliases: Array<string>
   public readonly permissions: number
-  public client: Client
 
   constructor(path: string, config: any = {}) {
+    super()
     this.path = path
     this.name = config.name
     this.aliases = config.aliases ?? []
