@@ -25,7 +25,7 @@ export = class PrivateVoiceChangeCountSubCommand extends SubCommand {
     }
 
     if (!info.args[1]) return err(props.countRequired)
-    const count: number = parseInt(info.args[2])
+    const count: number = parseInt(info.args[1])
     if (isNaN(count)) return err(props.countMustBeNumber)
     if (count < 1 || count > 99) return err(props.countRange)
 
