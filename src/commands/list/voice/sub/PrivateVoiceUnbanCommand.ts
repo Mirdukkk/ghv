@@ -28,10 +28,11 @@ export = class PrivateVoiceUnbanSubCommand extends SubCommand {
 
     if (!member) return err(props.memberNotFound)
     if (member.user.id === msg.author.id) return err(props.cannotUnbanYourself)
-    if (voice.permissionsFor(member).has('CONNECT')) return err(props.userNotBanned)
+    if (!voice.permissionOverwrites.get(member.user.id)?.deny.has('CONNECT'))
+      return err(props.userNotBanned)
 
     voice.createOverwrite(member, {
-      CONNECT: true
+      CONNECT: null
     }).then(() => {
       return msg.react('✅')
     })

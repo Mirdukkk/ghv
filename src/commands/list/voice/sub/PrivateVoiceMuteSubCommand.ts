@@ -3,18 +3,19 @@ import Info from '@/types/Info'
 import Discord from 'discord.js'
 import Finder from '@/util/Finder'
 
-export = class PrivateVoiceBanSubCommand extends SubCommand {
+export = class PrivateVoiceMuteSubCommand extends SubCommand {
   constructor() {
-    super('@ghv.commands.list.voice.sub.PrivateVoiceBanSubCommand', {
-      name: 'бан',
-      extends: 'приват'
+    super('@ghv.commands.list.voice.sub.PrivateVoiceMuteSubCommand', {
+      name: 'мут',
+      extends: 'приват',
+      aliases: [ 'мьют' ]
     })
   }
 
   execute(msg: Discord.Message, info: Info, config: Record<string, any>) {
 
     const voice: Discord.VoiceChannel = config.voice,
-      props = this.client.cache.props.get('PrivateVoiceBanSubCommand'),
+      props = this.client.cache.props.get('PrivateVoiceMuteSubCommand'),
       member = Finder.findMember(msg, info.args.slice(1).join(' '))
 
     const err = (m: string) => {
@@ -27,14 +28,14 @@ export = class PrivateVoiceBanSubCommand extends SubCommand {
     }
 
     if (!member) return err(props.memberNotFound)
-    if (member.user.id === msg.author.id) return err(props.cannotBanYourself)
-    if (voice.permissionOverwrites.get(member.user.id)?.deny.has('CONNECT'))
-      return err(props.userAreBanned)
+    if (member.user.id === msg.author.id) return err(props.cannotMuteYourself)
+    if (voice.permissionOverwrites.get(member.user.id)?.deny.has('SPEAK'))
+      return err(props.userAreMuted)
 
     voice.createOverwrite(member, {
-      CONNECT: false
+      SPEAK: false
     }).then(() => {
-      const memberInVoice = msg.guild.channels.cache.get(voice.id).members.get(member.user.id)
+      const memberInVoice = msg.guild.channels.cache.get(voice.id)?.members.get(member.user.id)
       if (memberInVoice) memberInVoice.edit({
         channel: null
       }).catch(() => {
