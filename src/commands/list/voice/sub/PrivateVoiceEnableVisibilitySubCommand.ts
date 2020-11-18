@@ -2,10 +2,10 @@ import SubCommand from '@/structures/SubCommand'
 import Info from '@/types/Info'
 import Discord from 'discord.js'
 
-export = class PrivateVoiceCloseSubCommand extends SubCommand {
+export = class PrivateVoiceEnableVisibilitySubCommand extends SubCommand {
   constructor() {
-    super('@ghv.commands.list.voice.sub.PrivateVoiceCloseSubCommand', {
-      name: 'закрыть',
+    super('@ghv.commands.list.voice.sub.PrivateVoiceEnableVisibilitySubCommand', {
+      name: 'вкл',
       extends: 'приват'
     })
   }
@@ -13,25 +13,21 @@ export = class PrivateVoiceCloseSubCommand extends SubCommand {
   execute(msg: Discord.Message, info: Info, config: Record<string, any>) {
 
     const voice: Discord.VoiceChannel = config.voice,
-      props = this.client.cache.props.get('PrivateVoiceCloseSubCommand')
+      props = this.client.cache.props.get('PrivateVoiceEnableVisibilitySubCommand')
 
-    if (!voice.permissionsFor(msg.guild.id).has('CONNECT')) {
+    if (voice.permissionsFor(msg.guild.id).has('VIEW_CHANNEL')) {
       const embed = new Discord.MessageEmbed()
         .setColor(this.client.config.embedsColor)
-        .setDescription(props.channelAreClosed)
+        .setDescription(props.channelAreVisible)
         .setTitle(props.errorTitle)
         .setFooter(props.calledBy + ' ' + msg.member.displayName, msg.author.displayAvatarURL())
       return msg.channel.send(embed)
     }
 
-    voice.createOverwrite(msg.author.id, {
-      CONNECT: true
+    voice.createOverwrite(msg.guild.id, {
+      VIEW_CHANNEL: true
     }).then(() => {
-      voice.createOverwrite(msg.guild.id, {
-        CONNECT: false
-      }).then(() => {
-        return msg.react('✅')
-      })
+      return msg.react('✅')
     })
 
   }

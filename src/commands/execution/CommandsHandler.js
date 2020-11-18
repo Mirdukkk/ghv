@@ -5,51 +5,63 @@ class CommandsHandler {
 
   static handleCommand(msg) {
 
-    if (!msg) throw new Error('CommandsHandler executed without "msg" field')
-    if (!msg.content) return
-    if (msg.author.bot) return
-    if (!msg.channel.permissionsFor(msg.guild.me).has('SEND_MESSAGES')) return
+    try {
+      if (!msg) return Error('CommandsHandler executed without "msg" field')
+      if (!msg.content) return
+      if (msg.author.bot) return
+      if (!msg.channel.permissionsFor(msg.guild.me).has('SEND_MESSAGES')) return
 
-    const CommandsFinder = require('./CommandsFinder')
-    const finder = new CommandsFinder(global.client.cache.commands)
+      const CommandsFinder = require('./CommandsFinder')
+      const finder = new CommandsFinder(global.client.cache.commands)
 
-    const globalPrefix = global.client.prefix
+      const globalPrefix = global.client.prefix
 
-    let now = Date.now()
-    let nowPrefix = `${now} `
+      let now = Date.now()
+      let nowPrefix = `${now} `
 
-    const mentionPrefix = msg.content.replace(
-      new RegExp(String.raw`<@(!)?${global.client.user.id}>( *)?`, 'i'), nowPrefix)
-    const prefix =
-      msg.content.startsWith(globalPrefix) ?
-        globalPrefix :
-        mentionPrefix.startsWith(nowPrefix) ?
-          mentionPrefix.split(' ').shift() :
-          false
+      const mentionPrefix = msg.content.replace(
+        new RegExp(String.raw`<@(!)?${global.client.user.id}>( *)?`, 'i'), nowPrefix)
+      const prefix =
+        msg.content.startsWith(globalPrefix) ?
+          globalPrefix :
+          mentionPrefix.startsWith(nowPrefix) ?
+            mentionPrefix.split(' ').shift() :
+            false
 
-    if (!prefix) return
+      if (!prefix) return
 
-    const content =
-      prefix === nowPrefix.trim() ?
-        mentionPrefix.slice(prefix.length + 1) :
-        msg.content.slice(prefix.length)
-    const args = content.split(/ +/)
-    const maybeCommand = args.shift().toLowerCase()
+      const content =
+        prefix === nowPrefix.trim() ?
+          mentionPrefix.slice(prefix.length + 1) :
+          msg.content.slice(prefix.length)
+      const args = content.split(/ +/)
+      const maybeCommand = args.shift().toLowerCase()
 
-    let command = finder.findByMainName(maybeCommand)
-    if (!command) command = finder.findByPseudonym(maybeCommand)
+      let command = finder.findByMainName(maybeCommand)
+      if (!command) command = finder.findByPseudonym(maybeCommand)
 
-    const info = {
-      prefix: prefix,
-      content: content,
-      args: args
-    }
+      const info = {
+        prefix: prefix,
+        content: content,
+        args: args
+      }
 
-    if (command) {
-      if (command.permissions) {
-        const readyToExecute = this.handleCommandPermissions(msg, command.permissions)
-        if (readyToExecute) command.execute(msg, info)
-      } else command.execute(msg, info)
+      if (command) {
+        if (command.permissions) {
+          const readyToExecute = this.handleCommandPermissions(msg, command.permissions)
+          if (readyToExecute) command.execute(msg, info)
+        } else command.execute(msg, info)
+      }
+    } catch (e) {
+      const Snowflake = require('../../util/Snowflake')
+      const embed = new global.Discord.MessageEmbed()
+        .setColor(global.client.config.embedsColor)
+        .setTitle('Ошибка')
+        .setDescription('Произошла неизвестная ошибка :c\n' +
+          'Сообщите разработчику об этом.')
+        .setFooter('Event ID: ' + Snowflake.generate())
+      msg?.channel?.send(embed).catch(() => {
+      }) // eslint-disable-line no-empty
     }
 
   }

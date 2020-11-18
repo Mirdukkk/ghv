@@ -1,5 +1,5 @@
 import SubCommand from '@/structures/SubCommand'
-import Discord from 'discord.js'
+import CommandsFinder from '@/commands/execution/CommandsFinder'
 
 export = class RefreshAllSubCommand extends SubCommand {
   constructor() {
@@ -10,12 +10,12 @@ export = class RefreshAllSubCommand extends SubCommand {
   }
 
   execute() {
-    const SubCommandsFinder = require('../../execution/CommandsFinder')
-    const subCommandsFinder = new SubCommandsFinder(this.client.cache.subCommands)
+    const subCommandsFinder = new CommandsFinder(this.client.cache.subCommands)
 
     const subCommands = subCommandsFinder.findSubCommands('refresh')
     subCommands.delete('all')
 
+    // @ts-ignore
     subCommands.forEach(c => c.execute)
 
     return true

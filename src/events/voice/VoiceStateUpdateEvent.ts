@@ -18,7 +18,8 @@ export = class VoiceStateUpdateEvent extends Event {
         if (newState.channelID === this.client.config.voiceChannelID)
           return newState.member.edit({
             channel: voice.channelID
-          })
+          }).catch(() => {
+          }) // eslint-disable-line no-empty
         else {
           if (newState.guild.channels.cache.get(oldState.channelID)?.members.size === 0) {
             this.client.cache.voices.delete(newState.member.user.id)
@@ -30,13 +31,15 @@ export = class VoiceStateUpdateEvent extends Event {
       } else if (newState.channelID === this.client.config.voiceChannelID) {
         return newState.member.edit({
           channel: voice.channelID
-        })
+        }).catch(() => {
+        }) // eslint-disable-line no-empty
       }
 
     } else {
       if (newState.channelID === this.client.config.voiceChannelID) {
+        if (newState.member.user.bot) return
         const voice = await newState.guild.channels.create(
-          '✨ Канал от ' + newState.member.displayName,
+          '✨ Приват от ' + newState.member.displayName,
           {
             parent: this.client.config.voiceChannelParentID,
             type: 'voice',
@@ -51,7 +54,8 @@ export = class VoiceStateUpdateEvent extends Event {
 
         return newState.member.edit({
           channel: voice
-        })
+        }).catch(() => {
+        }) // eslint-disable-line no-empty
       }
     }
 

@@ -22,5 +22,11 @@ client.load()
     console.error(`login failed with ${e.name}: ${e.message}`)
   })
 
-process.on('uncaughtException', console.error)
-process.on('unhandledRejection', console.error)
+/*process.on('uncaughtException', (reason) => console.error(reason))
+process.on('unhandledRejection', (reason) => console.error(reason))*/
+
+process.on('SIGINT', () => {
+  console.log('')
+  console.info('exiting...')
+  process.kill(process.pid)
+})

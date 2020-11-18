@@ -16,25 +16,46 @@ export = class PrivateVoiceCommand extends Command {
     const subCommands = this.client.cache.subCommands.filter(c => c.extends === this.name)
     const subCommandsFinder = new SubCommandsFinder(subCommands)
     const helpSubCommand = subCommandsFinder.findSubCommand(this.name, 'помощь')
+    const props = this.client.cache.props.get('PrivateVoiceCommand')
+    const privateVoice = this.client.cache.voices.get(msg.author.id)
+
+    const voiceRequired = () => {
+      const embed = new Discord.MessageEmbed()
+        .setColor(this.client.config.embedsColor)
+        .setTitle(props.voiceRequiredErrorTitle)
+        .setDescription(props.voiceRequiredErrorDescription)
+        .setFooter(props.calledBy + ' ' + msg.member.displayName, msg.author.displayAvatarURL())
+      return msg.channel.send(embed)
+    }
 
     switch (subCommand) {
       case undefined: {
-        helpSubCommand.execute(info, {
+        helpSubCommand.execute(msg, info, {
           argumentsNotFound: true,
           subCommands: subCommands
         })
       }
         break
-      case helpSubCommand.name: {
-        helpSubCommand.execute(info, {
+
+      default: {
+        const subCommandToExec = subCommandsFinder.findSubCommand(this.name, subCommand)
+        if (!subCommandToExec) return helpSubCommand.execute(msg, info, {
+          subCommands: subCommands,
+          wrongArguments: true
+        })
+
+        if (subCommandToExec.name === 'помощь') return helpSubCommand.execute(msg, info, {
           subCommands: subCommands
         })
-      }
-        break
-      default: {
-        helpSubCommand.execute(info, {
-          argumentsAreWrong: true,
-          subCommands: subCommands
+
+        if (!privateVoice) return voiceRequired()
+
+        const voice = msg.guild.channels.cache.get(privateVoice?.channelID)
+        if (!voice) return console.error(new Error('PrivateVoiceCommand: line 53.'))
+
+        subCommandToExec.execute(msg, info, {
+          voice: voice,
+          voiceConfig: privateVoice
         })
       }
 
