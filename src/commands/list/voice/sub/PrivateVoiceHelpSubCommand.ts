@@ -100,7 +100,7 @@ export = class PrivateVoiceHelpSubCommand extends SubCommand {
       return new Discord.MessageEmbed()
         .setColor(client.config.embedsColor)
         .setTitle(props.helpTitle)
-        .setDescription(props.helpDescription)
+        .setDescription(props.helpDescription.replace(/{prefix}/g, client.prefix))
         .setTimestamp()
     }
   }
