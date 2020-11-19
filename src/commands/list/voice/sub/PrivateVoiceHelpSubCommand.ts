@@ -25,9 +25,16 @@ export = class PrivateVoiceHelpSubCommand extends SubCommand {
         .then(dm => {
           const helpEmbed = makeHelpEmbed(props, this.client)
           dm.send(helpEmbed)
-          embed.setDescription(props.helpSendedSuccessDescription)
-          embed.setTitle(props.helpSendedSuccessTitle)
-          return msg.channel.send(embed)
+            .then(() => {
+              embed.setDescription(props.helpSendedSuccessDescription)
+              embed.setTitle(props.helpSendedSuccessTitle)
+              return msg.channel.send(embed)
+            })
+            .catch(() => {
+              embed.setDescription(props.closedDM)
+              embed.setTitle(props.errorTitle)
+              return msg.channel.send(embed)
+            })
         })
         .catch(() => {
           embed.setDescription(props.closedDM)
@@ -62,6 +69,10 @@ export = class PrivateVoiceHelpSubCommand extends SubCommand {
                         .then(() => {
                           embed.setTitle(props.helpSendedSuccessTitle)
                           embed.setDescription(props.helpSendedSuccessDescription)
+                          message.edit(embed)
+                        })
+                        .catch(() => {
+                          embed.setDescription(props.closedDM)
                           message.edit(embed)
                         })
                     })
