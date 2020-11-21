@@ -5,8 +5,9 @@ import Discord from 'discord.js'
 export = class PrivateVoiceDisableVisibilitySubCommand extends SubCommand {
   constructor() {
     super('@ghv.commands.list.voice.sub.PrivateVoiceDisableVisibilitySubCommand', {
-      name: 'выкл',
-      extends: 'приват'
+      name: 'невидимый',
+      extends: 'приват',
+      aliases: [ 'выкл' ]
     })
   }
 
@@ -24,14 +25,10 @@ export = class PrivateVoiceDisableVisibilitySubCommand extends SubCommand {
       return msg.channel.send(embed)
     }
 
-    voice.createOverwrite(msg.author.id, {
-      VIEW_CHANNEL: true
+    voice.createOverwrite(msg.guild.id, {
+      VIEW_CHANNEL: false
     }).then(() => {
-      voice.createOverwrite(msg.guild.id, {
-        VIEW_CHANNEL: false
-      }).then(() => {
-        return msg.react('✅')
-      })
+      return msg.react('✅')
     })
 
   }

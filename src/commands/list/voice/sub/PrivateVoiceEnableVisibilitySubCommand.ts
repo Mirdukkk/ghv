@@ -5,8 +5,9 @@ import Discord from 'discord.js'
 export = class PrivateVoiceEnableVisibilitySubCommand extends SubCommand {
   constructor() {
     super('@ghv.commands.list.voice.sub.PrivateVoiceEnableVisibilitySubCommand', {
-      name: 'вкл',
-      extends: 'приват'
+      name: 'видимый',
+      extends: 'приват',
+      aliases: [ 'вкл' ]
     })
   }
 

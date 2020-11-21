@@ -49,8 +49,16 @@ class CommandsHandler {
       if (command) {
         if (command.permissions) {
           const readyToExecute = this.handleCommandPermissions(msg, command.permissions)
-          if (readyToExecute) command.execute(msg, info)
-        } else command.execute(msg, info)
+          if (readyToExecute) {
+            msg.delete().catch(() => {
+            }) // eslint-disable-line no-empty
+            command.execute(msg, info)
+          }
+        } else {
+          msg.delete().catch(() => {
+          }) // eslint-disable-line no-empty
+          command.execute(msg, info)
+        }
       }
     } catch (e) {
       const Snowflake = require('../../util/Snowflake')

@@ -24,14 +24,10 @@ export = class PrivateVoiceCloseSubCommand extends SubCommand {
       return msg.channel.send(embed)
     }
 
-    voice.createOverwrite(msg.author.id, {
-      CONNECT: true
+    voice.createOverwrite(msg.guild.id, {
+      CONNECT: false
     }).then(() => {
-      voice.createOverwrite(msg.guild.id, {
-        CONNECT: false
-      }).then(() => {
-        return msg.react('✅')
-      })
+      return msg.react('✅')
     })
 
   }

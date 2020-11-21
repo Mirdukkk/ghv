@@ -43,7 +43,13 @@ export = class VoiceStateUpdateEvent extends Event {
           {
             parent: this.client.config.voiceChannelParentID,
             type: 'voice',
-            position: 0
+            position: 0,
+            permissionOverwrites: [
+              {
+                id: newState.member.user.id,
+                allow: 284165392
+              }
+            ]
           }
         )
 
