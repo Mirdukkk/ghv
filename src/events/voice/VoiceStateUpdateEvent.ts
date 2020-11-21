@@ -38,19 +38,29 @@ export = class VoiceStateUpdateEvent extends Event {
     } else {
       if (newState.channelID === this.client.config.voiceChannelID) {
         if (newState.member.user.bot) return
+
+        const permissions: Array<any> = [
+          {
+            id: newState.member.user.id,
+            allow: 284165392,
+            deny: 553648128
+          }
+        ]
+        if (this.client.config.moderationRoleID)
+          permissions.push(
+            {
+              id: this.client.config.moderationRoleID,
+              allow: 334497552
+            }
+          )
+
         const voice = await newState.guild.channels.create(
           '✨ Приват от ' + newState.member.displayName,
           {
             parent: this.client.config.voiceChannelParentID,
             type: 'voice',
             position: 0,
-            permissionOverwrites: [
-              {
-                id: newState.member.user.id,
-                allow: 284165392,
-                deny: 553648128
-              }
-            ]
+            permissionOverwrites: permissions
           }
         )
 

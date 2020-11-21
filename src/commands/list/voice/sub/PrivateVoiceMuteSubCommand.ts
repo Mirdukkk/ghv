@@ -29,6 +29,8 @@ export = class PrivateVoiceMuteSubCommand extends SubCommand {
 
     if (!member) return err(props.memberNotFound)
     if (member.user.id === msg.author.id) return err(props.cannotMuteYourself)
+    if (member.roles.cache.has(this.client.config.moderationRoleID))
+      return err(props.cannotMuteModers)
     if (voice.permissionOverwrites.get(member.user.id)?.deny.has('SPEAK'))
       return err(props.userAreMuted)
 

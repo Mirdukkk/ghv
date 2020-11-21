@@ -28,6 +28,8 @@ export = class PrivateVoiceBanSubCommand extends SubCommand {
 
     if (!member) return err(props.memberNotFound)
     if (member.user.id === msg.author.id) return err(props.cannotBanYourself)
+    if (member.roles.cache.has(this.client.config.moderationRoleID))
+      return err(props.cannotBanModers)
     if (voice.permissionOverwrites.get(member.user.id)?.deny.has('CONNECT'))
       return err(props.userAreBanned)
 
