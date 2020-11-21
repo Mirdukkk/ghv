@@ -47,7 +47,8 @@ export = class VoiceStateUpdateEvent extends Event {
             permissionOverwrites: [
               {
                 id: newState.member.user.id,
-                allow: 284165392
+                allow: 284165392,
+                deny: 553648128
               }
             ]
           }
