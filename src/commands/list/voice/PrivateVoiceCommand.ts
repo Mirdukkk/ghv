@@ -5,7 +5,8 @@ import Discord from 'discord.js'
 export = class PrivateVoiceCommand extends Command {
   constructor() {
     super('@ghv.commands.list.voice.PrivateVoiceCommand', {
-      name: 'приват'
+      name: 'приват',
+      aliases: [ 'п' ]
     })
   }
 
