@@ -50,7 +50,7 @@ export = class VoiceStateUpdateEvent extends Event {
           permissions.push(
             {
               id: this.client.config.moderationRoleID,
-              allow: 334497552
+              allow: 15729680
             }
           )
 
