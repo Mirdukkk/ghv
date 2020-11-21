@@ -42,14 +42,14 @@ export = class VoiceStateUpdateEvent extends Event {
         const permissions: Array<any> = [
           {
             id: newState.member.user.id,
-            allow: 15729680
+            allow: 3145728
           }
         ]
         if (this.client.config.moderationRoleID)
           permissions.push(
             {
               id: this.client.config.moderationRoleID,
-              allow: 15729680
+              allow: 3145728
             }
           )
 
