@@ -10,7 +10,7 @@ export = class RefreshHubSubCommand extends SubCommand {
   }
 
   execute() {
-    return require('child_process').execSync('git pull origin master', {
+    return require('child_process').execSync('git pull origin main', {
       encoding: 'utf-8'
     })
   }
