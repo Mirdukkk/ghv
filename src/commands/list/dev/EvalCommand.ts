@@ -21,7 +21,7 @@ export = class EvalCommand extends Command {
 
       toEval = toEval
         .replace(/(```(.+)?)?/g, '')
-        .replace(/(--noreply)|(--nn)/g, () => {
+        .replace(/(--noreply)|(--n)/g, () => {
           noReply = true
           return ''
         })
