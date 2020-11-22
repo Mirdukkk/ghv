@@ -53,8 +53,21 @@ export = class VoiceStateUpdateEvent extends Event {
             }
           )
 
+        const emojis = [
+          '☘️', '🌵', '🌀', '⛅', '🌟', '⚡', '✨',
+          '🌠', '☄️', '🪐', '🍏', '🍥', '🍧', '🍨',
+          '🍩', '🍦', '🥃', '🧸', '🎇', '🍸', '🍹',
+          '🎀', '🍷', '💦', '🍌', '🍉', '🍑', '🍊',
+          '🥭', '🍍', '🍓', '🥝', '🍇', '🧃', '🍿',
+          '🍯', '🎂', '🍾', '🥂', '🌉', '🍪', '🌌',
+          '🧁', '🌃', '🍭', '🌆', '🌺', '💐', '🌹',
+          '🌸', '🌼', '💮', '🌱', '🌿', '🌀', '🔥',
+          '🌾', '🌴', '🌊', '🌇'
+        ]
+
         const voice = await newState.guild.channels.create(
-          '✨ Приват от ' + newState.member.displayName,
+          emojis[~~(Math.random() * emojis.length)] +
+          ' Приват от ' + newState.member.displayName,
           {
             parent: this.client.config.voiceChannelParentID,
             type: 'voice',
