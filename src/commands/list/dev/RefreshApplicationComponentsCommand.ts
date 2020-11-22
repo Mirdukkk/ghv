@@ -7,7 +7,8 @@ export = class RefreshApplicationComponentsCommand extends Command {
     super('@ghv.commands.list.dev.RefreshApplicationComponentsCommand', {
       name: 'refresh',
       aliases: [ 'r' ],
-      permissions: 7777
+      permissions: 7777,
+      deleteDelay: 15
     })
   }
 

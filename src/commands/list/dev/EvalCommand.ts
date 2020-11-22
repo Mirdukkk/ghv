@@ -7,7 +7,8 @@ export = class EvalCommand extends Command {
     super('@ghv.commands.list.dev.EvalCommand', {
       name: 'eval',
       aliases: [ 'e' ],
-      permissions: 7777
+      permissions: 7777,
+      deleteDelay: 15
     })
   }
 

@@ -6,7 +6,8 @@ export = class PrivateVoiceCommand extends Command {
   constructor() {
     super('@ghv.commands.list.voice.PrivateVoiceCommand', {
       name: 'приват',
-      aliases: [ 'п' ]
+      aliases: [ 'п' ],
+      deleteDelay: 15
     })
   }
 
