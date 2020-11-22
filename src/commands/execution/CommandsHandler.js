@@ -51,14 +51,14 @@ class CommandsHandler {
           const readyToExecute = this.handleCommandPermissions(msg, command.permissions)
           if (readyToExecute) {
             msg.delete({
-              timeout: command.deleteDelay
+              timeout: command.deleteDelay * 1000
             }).catch(() => {
             }) // eslint-disable-line no-empty
             command.execute(msg, info)
           }
         } else {
           msg.delete({
-            timeout: command.deleteDelay
+            timeout: command.deleteDelay * 1000
           }).catch(() => {
           }) // eslint-disable-line no-empty
           command.execute(msg, info)
