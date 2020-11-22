@@ -43,7 +43,7 @@ class CommandsHandler {
       const info = {
         prefix: prefix,
         content: content,
-        args: args
+        args: args,
       }
 
       if (command) {
