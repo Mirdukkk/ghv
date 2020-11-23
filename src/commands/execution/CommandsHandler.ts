@@ -1,26 +1,34 @@
-class CommandsHandler {
+import Discord from 'discord.js'
+import Base from "@/structures/Base";
+import SnowflakeUtil from "@/util/Snowflake";
+
+class CommandsHandler extends Base {
+
   constructor() {
-    throw new Error(`The ${this.constructor.name} class may not be installed.`)
+    super()
   }
 
-  static handleCommand(msg) {
+  handleCommand(msg: Discord.Message) {
 
     try {
       if (!msg) return Error('CommandsHandler executed without "msg" field')
       if (!msg.content) return
       if (msg.author.bot) return
-      if (!msg.channel.permissionsFor(msg.guild.me).has('SEND_MESSAGES')) return
+      if (
+        !(msg.channel instanceof Discord.DMChannel)
+        && msg.channel.permissionsFor(msg.guild.me).has('SEND_MESSAGES')
+      ) return
 
       const CommandsFinder = require('./CommandsFinder')
-      const finder = new CommandsFinder(global.client.cache.commands)
+      const finder = new CommandsFinder(this.client.cache.commands)
 
-      const globalPrefix = global.client.prefix
+      const globalPrefix = this.client.prefix
 
       let now = Date.now()
       let nowPrefix = `${now} `
 
       const mentionPrefix = msg.content.replace(
-        new RegExp(String.raw`<@(!)?${global.client.user.id}>( *)?`, 'i'), nowPrefix)
+        new RegExp(String.raw`<@(!)?${this.client.user.id}>( *)?`, 'i'), nowPrefix)
       const prefix =
         msg.content.startsWith(globalPrefix) ?
           globalPrefix :
@@ -65,22 +73,21 @@ class CommandsHandler {
         }
       }
     } catch (e) {
-      const Snowflake = require('../../util/Snowflake')
-      const embed = new global.Discord.MessageEmbed()
-        .setColor(global.client.config.embedsColor)
+      const embed = new Discord.MessageEmbed()
+        .setColor(this.client.config.embedsColor)
         .setTitle('Ошибка')
         .setDescription('Произошла неизвестная ошибка :c\n' +
           'Сообщите разработчику об этом.')
-        .setFooter('Event ID: ' + Snowflake.generate())
+        .setFooter('Event ID: ' + SnowflakeUtil.generate())
       msg?.channel?.send(embed).catch(() => {
       }) // eslint-disable-line no-empty
     }
 
   }
 
-  static handleCommandPermissions(msg, permissions) {
+  handleCommandPermissions(msg, permissions) {
     const customPermissions = {
-      owner: m => global.client.owner?.includes(m?.author.id)
+      owner: m => this.client.owner?.includes(m?.author.id)
     }
 
     if (Array.isArray(permissions)) {
@@ -94,4 +101,4 @@ class CommandsHandler {
   }
 }
 
-module.exports = CommandsHandler
+export = CommandsHandler

@@ -67,7 +67,7 @@ export = class VoiceStateUpdateEvent extends Event {
 
         const voice = await newState.guild.channels.create(
           emojis[~~(Math.random() * emojis.length)] +
-          ' Приват от ' + newState.member.displayName,
+          '・Приват от ' + newState.member.displayName,
           {
             parent: this.client.config.voiceChannelParentID,
             type: 'voice',
