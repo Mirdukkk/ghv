@@ -16,7 +16,7 @@ class CommandsHandler extends Base {
       if (msg.author.bot) return
       if (
         !(msg.channel instanceof Discord.DMChannel)
-        && msg.channel.permissionsFor(msg.guild.me).has('SEND_MESSAGES')
+        && !msg.channel.permissionsFor(msg.guild.me).has('SEND_MESSAGES')
       ) return
 
       const CommandsFinder = require('./CommandsFinder')
