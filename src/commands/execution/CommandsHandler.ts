@@ -8,6 +8,7 @@ class CommandsHandler extends Base {
     super()
   }
 
+
   handleCommand(msg: Discord.Message) {
 
     try {
